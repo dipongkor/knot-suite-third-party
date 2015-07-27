@@ -47,6 +47,8 @@ router.post("/getNewWebHook/:knotSuitAccessToken", function (req, res, next) {
             console.log(err);
             res.end();
         }
+
+        console.log(jiraHook);
         if(jiraHook){
             jiraHook.hookList.push({hookData: req.body,hookHeader: req.header()});
             jiraHook.save(function(err){
