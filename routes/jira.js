@@ -10,7 +10,7 @@ router.post("/createNewHook", function (req, res, next) {
         hashTags: req.body.hashTags,
         iconUrl: req.body.iconUrl,
         orgList: req.body.orgList
-    }
+    };
 
     var newJiraHook = new JiraHook({
         hashTags: newHookParams.hashTags,
@@ -36,23 +36,26 @@ router.post("/createNewHook", function (req, res, next) {
 });
 
 router.post("/getNewWebHook/:knotSuitAccessToken", function (req, res, next) {
+    console.log("Jira Hook fired");
 
     var knotSuitAccessToken = req.query.knotSuiteAccessToken;
+
+    console.log(knotSuitAccessToken);
 
     JiraHook.findOne({knotSuiteAccessToken: knotSuitAccessToken}, function (err, jiraHook) {
         if(err){
             console.log(err);
-            req.end();
+            res.end();
         }
         if(jiraHook){
             jiraHook.hookList.push({hookData: req.body,hookHeader: req.header()});
             jiraHook.save(function(err){
                if(err){
                    console.log(err);
-                   req.end();
+                   res.end();
                    return;
                }
-                req.end();
+                res.end();
             });
         }
     });
