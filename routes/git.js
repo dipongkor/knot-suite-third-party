@@ -265,11 +265,10 @@ router.post("/createNewWebHook", function (req, res, next) {
                             }
 
                             var newGitHook = new GitHook({
-                                hookData: {},
-                                hookHeader: {},
                                 repoId: newWebHookParams.gitRepo.id,
                                 orgList: newWebHookParams.orgList,
-                                knotAccessToken: newWebHookParams.knotSuiteAccessToken
+                                knotAccessToken: newWebHookParams.knotSuiteAccessToken,
+                                hashTags: newWebHookParams.hashTags
                             });
 
                             newGitHook.save(function(err){
@@ -329,6 +328,35 @@ router.post("/deleteHook",function(req,res,next){
             }
         }
     );
+});
+
+router.post("/getAuthorizedAccount",function(req,res,next){
+     var knotSuiteAccessToken = req.body.knotSuiteAccessToken;
+    User.findOne({knotSuiteAccessToken: knotSuiteAccessToken},function(err,user){
+       if(err){
+           console.log(err);
+           res.send({
+               message: "Database error",
+               code: -1,
+               error: err
+           });
+           return;
+       }
+
+        if(user){
+            res.send({
+                message: "User found",
+                code: 1,
+                data: user
+            });
+            return
+        }else{
+            res.send({
+                message: "User not found",
+                code: 2
+            });
+        }
+    });
 });
 
 module.exports = router;

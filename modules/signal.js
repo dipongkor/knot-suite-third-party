@@ -38,18 +38,13 @@ var signal = function () {
                 accessToken: gitHook.knotAccessToken,
                 content: signalData.content,
                 spaceId: null,
-                thirdPartyService: {
-                    type: 'GitHub',
-                    icon: '',
-                    name: 'GitHub'
-                },
                 rootId: null,
                 verb: null,
                 object: null,
                 activityType: "Composed-DashBoard",
                 objectTags: {
                     objectTags: [],
-                    hashTags: [],
+                    hashTags: gitHook.hashTags,
                     privateTags: []
                 },
                 ogdataObject: {

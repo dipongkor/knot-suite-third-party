@@ -43,23 +43,23 @@ router.post("/getNewWebHook/:knotSuitAccessToken", function (req, res, next) {
     console.log(knotSuitAccessToken);
 
     JiraHook.findOne({knotSuiteAccessToken: knotSuitAccessToken}, function (err, jiraHook) {
-        if(err){
+        if (err) {
             console.log(err);
             res.end();
         }
 
         console.log(jiraHook);
-        if(jiraHook){
-            jiraHook.hookList.push({hookData: req.body,hookHeader: req.headers});
-            jiraHook.save(function(err){
-               if(err){
-                   console.log(err);
-                   res.end();
-                   return;
-               }
+        if (jiraHook) {
+            jiraHook.hookList.push({hookData: req.body, hookHeader: req.headers});
+            jiraHook.save(function (err) {
+                if (err) {
+                    console.log(err);
+                    res.end();
+                    return;
+                }
                 res.end();
             });
-        }else{
+        } else {
             console.log("hook not found");
             res.end();
         }
