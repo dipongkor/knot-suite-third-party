@@ -5,7 +5,7 @@ var hookSchema = new Schema({
     hookData: {},
     hookHeader: {},
     orgList: [],
-    knotAccessToken: String,
+    knotSuiteAccessToken: String,
     hookList: [],
     hashTags: [],
     iconUrl: String,
