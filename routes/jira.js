@@ -38,7 +38,7 @@ router.post("/createNewHook", function (req, res, next) {
 router.post("/getNewWebHook/:knotSuitAccessToken", function (req, res, next) {
     console.log("Jira Hook fired");
 
-    var knotSuitAccessToken = req.params.knotSuiteAccessToken;
+    var knotSuitAccessToken = req.params.knotSuitAccessToken;
 
     console.log(knotSuitAccessToken);
 
