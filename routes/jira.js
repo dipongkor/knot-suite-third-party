@@ -40,7 +40,7 @@ router.post("/getNewWebHook/:knotSuitAccessToken", function (req, res, next) {
 
     var knotSuitAccessToken = req.query.knotSuiteAccessToken;
 
-    console.log(knotSuitAccessToken);
+    console.log(req.params);
 
     JiraHook.findOne({knotSuiteAccessToken: knotSuitAccessToken}, function (err, jiraHook) {
         if(err){
