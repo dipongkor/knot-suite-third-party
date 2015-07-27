@@ -35,7 +35,7 @@ router.post("/createNewHook", function (req, res, next) {
 
 });
 
-router.post("/getNewWebHook", function (req, res, next) {
+router.post("/getNewWebHook/:knotSuitAccessToken", function (req, res, next) {
 
     var knotSuitAccessToken = req.query.knotSuiteAccessToken;
 
