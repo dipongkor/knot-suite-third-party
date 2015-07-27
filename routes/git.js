@@ -48,11 +48,7 @@ router.get("/registerNewAccount", function (req, res, next) {
                 return;
             }
 
-            res.send({
-                message: "User Already registered",
-                code: 1,
-                data: user
-            });
+            res.redirect(knotSettings.knotSuiteRedirectUrl);
             return;
         });
 });
@@ -120,21 +116,19 @@ router.get('/registerNewAccountCallBackHandler', function (req, res, next) {
                                 error: err
                             });
                         }
-                        res.send({
-                            message: "User registered successfully",
-                            code: 1,
-                            data: newUser
-                        });
+                        //res.send({
+                        //    message: "User registered successfully",
+                        //    code: 1,
+                        //    data: newUser
+                        //});
+
+                        res.redirect(knotSettings.knotSuiteRedirectUrl);
                     });
 
                 });
             });
         }else{
-            res.send({
-                message: "User already registered",
-                code: 1,
-                data: user
-            });
+            res.redirect(knotSettings.knotSuiteRedirectUrl);
         }
     });
 });
