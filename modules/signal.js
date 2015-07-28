@@ -25,11 +25,13 @@ var signal = function () {
                     ogDataUrl: hookObj.hookData.head_commit.url
                 };
                 break;
+
         }
     }
 
     function saveSignalFromGitWebHook(gitHook, hookObj) {
         console.log("Saving signal");
+        return;
 
         var signalData = composeSignalContent(hookObj);
 
