@@ -9,7 +9,7 @@ var settings = {
         callBackUrl: "http://polar-scrubland-5825.herokuapp.com/api/gitHub/registerNewAccountCallBackHandler",
         gitHubWebHookUrl: "http://polar-scrubland-5825.herokuapp.com/api/gitHub/getNewWebHook",
         knotSuiteServiceUrl: "https://prod-frontserver.herokuapp.com",
-        knotSuiteRedirectUrl: "http://knotsuite.azurewebsites.net/app/#/thirdparty/github/settings"
+        knotSuiteRedirectUrl: "http://knotsuite.azurewebsites.net/#/thirdparty/github/settings"
     },
 
     development: {
