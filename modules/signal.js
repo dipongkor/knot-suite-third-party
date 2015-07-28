@@ -25,14 +25,20 @@ var signal = function () {
                     ogDataUrl: hookObj.hookData.head_commit.url
                 };
                 break;
+            case "commit_comment":
+                var content = "[" + hookObj.hookData.repository.full_name + ": New comment on commit"
+                    + "Commented By: \n" + hookObj.hookData.comment.user.login;
+                return {
+                    content: content,
+                    ogDataUrl: hookObj.hookData.comment.html_url
+                };
+            break;
 
         }
     }
 
     function saveSignalFromGitWebHook(gitHook, hookObj) {
         console.log("Saving signal");
-        return;
-
         var signalData = composeSignalContent(hookObj);
 
         gitHook.orgList.forEach(function (org) {
