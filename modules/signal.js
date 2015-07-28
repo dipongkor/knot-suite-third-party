@@ -40,6 +40,7 @@ var signal = function () {
     function saveSignalFromGitWebHook(gitHook, hookObj) {
         console.log("Saving signal");
         var signalData = composeSignalContent(hookObj);
+        console.log(gitHook.hashTags);
 
         gitHook.orgList.forEach(function (org) {
             var data = {
