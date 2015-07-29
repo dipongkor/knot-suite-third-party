@@ -29,7 +29,6 @@ router.post("/createNewHook", function (req, res, next) {
                 error: err
             });
         }
-
         res.send(jiraHook);
     });
 
