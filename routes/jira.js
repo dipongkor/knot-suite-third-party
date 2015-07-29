@@ -66,5 +66,27 @@ router.post("/getNewWebHook/:knotSuitAccessToken", function (req, res, next) {
 
 });
 
+router.post("/getAuthorizedAccount",function(req,res,next){
+   var knotSuiteAccessToken = req.body.knotSuitAccessToken;
+    JiraHook.findOne({knotSuiteAccessToken: knotSuitAccessToken},function(err,jiraHook){
+       if(err){
+           console.log(err);
+           res.send({
+               message: "Database error",
+               code: -1,
+               error: err
+           });
+           return;
+       }
+
+        res.send({
+            message: "User found",
+            code: 1,
+            data: jiraHook
+        });
+
+    });
+});
+
 module.exports = router;
 
