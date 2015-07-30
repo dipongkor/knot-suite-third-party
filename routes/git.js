@@ -251,7 +251,7 @@ router.post("/createNewWebHook", function (req, res, next) {
                         );
                     } else {
                         newWebHookParams.gitRepo.hookData = data;
-                      //  signal.saveSignalOnHookCreated(newWebHookParams);
+                        signal.saveSignalOnHookCreated(newWebHookParams);
                         user.connectedRepositories.push(newWebHookParams.gitRepo)
                         user.save(function (err) {
                             if (err) {
