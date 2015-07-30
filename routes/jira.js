@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var JiraHook = require("../models/jiraHook");
-
+var shortid = require('shortid');
+var knotSettings = require("../configs/knotSettings");
 router.post("/createNewHook", function (req, res, next) {
 
     var newHookParams = {
@@ -86,6 +87,15 @@ router.post("/getAuthorizedAccount",function(req,res,next){
         });
 
     });
+});
+
+router.post("/getNewHookUrl",function(req,res,next){
+    var uniqueId = shortid.generate();
+     var newJiraHook = {
+       hookId: uniqueId,
+         hookUrl: knotSettings.apiServerUrl + "/api/jira/getNewWebHook/" + req.body.knotSuiteAccessToken + "/" + uniqueId
+     };
+     res.send(newJiraHook);
 });
 
 module.exports = router;
