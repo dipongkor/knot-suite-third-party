@@ -40,7 +40,7 @@ router.get("/registerNewAccount", function (req, res, next) {
                 res.writeHead(303, {
                     Location: oauth.getAuthorizeUrl({
                         redirect_uri: knotSettings.callBackUrl + "?knotSuiteAccessToken=" + knotSuiteAccessToken + "",
-                        scope: "repo"
+                        scope: "repo,admin:org,admin:org_hook,admin:repo_hook,write:org"
                     })
                 });
 
