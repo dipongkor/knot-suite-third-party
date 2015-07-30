@@ -184,7 +184,7 @@ router.post("/getNewWebHook", function (req, res, next) {
     GitHook.findOne({repoId: req.body.repository.id}, function (err, gitHook) {
         if (err) {
             console.log(err);
-            req.end();
+            res.end();
         }
 
         if (gitHook) {
