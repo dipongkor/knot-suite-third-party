@@ -154,7 +154,7 @@ router.post("/getAllRepos", function (req, res, next) {
             });
 
             github.repos.getAll({
-                type: 'owner'
+                type: 'all'
             }, function (err, data) {
                 if (err) {
                     console.log(err);
