@@ -127,7 +127,7 @@ router.get('/registerNewAccountCallBackHandler', function (req, res, next) {
 
                 });
             });
-        }else{
+        } else {
             res.redirect(knotSettings.knotSuiteRedirectUrl);
         }
     });
@@ -177,25 +177,25 @@ router.post("/getAllRepos", function (req, res, next) {
 router.post("/getNewWebHook", function (req, res, next) {
     console.log("web hook fired");
 
-    GitHook.findOne({repoId: req.body.repository.id},function(err,gitHook){
-       if(err){
-           console.log(err);
-           req.end();
-       }
+    GitHook.findOne({repoId: req.body.repository.id}, function (err, gitHook) {
+        if (err) {
+            console.log(err);
+            req.end();
+        }
 
-        if(gitHook){
-            gitHook.hookList.push({hookData:req.body, hookHeader: req.headers});
-            gitHook.save(function(err){
-                if(err){
+        if (gitHook) {
+            gitHook.hookList.push({hookData: req.body, hookHeader: req.headers});
+            gitHook.save(function (err) {
+                if (err) {
                     console.log(err);
                 }
                 console.log("Hook updated");
 
-                signal.saveSignalFromGitWebHook(gitHook,{hookData:req.body, hookHeader: req.headers});
+                signal.saveSignalFromGitWebHook(gitHook, {hookData: req.body, hookHeader: req.headers});
 
                 res.end();
             });
-        }else{
+        } else {
             console.log("Hook not found");
             req.end();
         }
@@ -265,10 +265,13 @@ router.post("/createNewWebHook", function (req, res, next) {
                                 hashTags: newWebHookParams.hashTags
                             });
 
-                            newGitHook.save(function(err){
-                                if(err){
+                            newGitHook.save(function (err) {
+                                if (err) {
                                     console.log(err);
                                 }
+
+                                signal.saveSignalOnHookCreated(newWebHookParams);
+
                                 res.send({
                                     message: "GitHub web hook created successfully",
                                     code: 1,
@@ -283,7 +286,7 @@ router.post("/createNewWebHook", function (req, res, next) {
     );
 });
 
-router.post("/deleteHook",function(req,res,next){
+router.post("/deleteHook", function (req, res, next) {
     //console.log(req.body);
     github.authenticate({
         type: "oauth",
@@ -295,56 +298,56 @@ router.post("/deleteHook",function(req,res,next){
             user: req.body.user,
             repo: req.body.repo,
             id: req.body.hookId
-        },function(err,data){
-            if(err){
+        }, function (err, data) {
+            if (err) {
                 //console.log(req)
                 res.send(err);
-            }else{
+            } else {
 
 
-                User.findOne({gitAccessToken: req.body.gitAccessToken},function(err,user){
-                   if(user){
-                       var repo = _.find(user.connectedRepositories,{id: req.body.repoId});
-                       console.log(repo);
-                       if(repo){
-                           var index = user.connectedRepositories.indexOf(repo);
-                           user.connectedRepositories.splice(index,1);
-                           user.save(function(err){
-                               if(err){
-                                   res.send(data);
-                               }else{
-                                   res.send(user);
-                               }
-                           })
-                       }
-                   }
+                User.findOne({gitAccessToken: req.body.gitAccessToken}, function (err, user) {
+                    if (user) {
+                        var repo = _.find(user.connectedRepositories, {id: req.body.repoId});
+                        console.log(repo);
+                        if (repo) {
+                            var index = user.connectedRepositories.indexOf(repo);
+                            user.connectedRepositories.splice(index, 1);
+                            user.save(function (err) {
+                                if (err) {
+                                    res.send(data);
+                                } else {
+                                    res.send(user);
+                                }
+                            })
+                        }
+                    }
                 });
             }
         }
     );
 });
 
-router.post("/getAuthorizedAccount",function(req,res,next){
-     var knotSuiteAccessToken = req.body.knotSuiteAccessToken;
-    User.findOne({knotSuiteAccessToken: knotSuiteAccessToken},function(err,user){
-       if(err){
-           console.log(err);
-           res.send({
-               message: "Database error",
-               code: -1,
-               error: err
-           });
-           return;
-       }
+router.post("/getAuthorizedAccount", function (req, res, next) {
+    var knotSuiteAccessToken = req.body.knotSuiteAccessToken;
+    User.findOne({knotSuiteAccessToken: knotSuiteAccessToken}, function (err, user) {
+        if (err) {
+            console.log(err);
+            res.send({
+                message: "Database error",
+                code: -1,
+                error: err
+            });
+            return;
+        }
 
-        if(user){
+        if (user) {
             res.send({
                 message: "User found",
                 code: 1,
                 data: user
             });
             return
-        }else{
+        } else {
             res.send({
                 message: "User not found",
                 code: 2
