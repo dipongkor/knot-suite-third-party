@@ -116,7 +116,8 @@ var signal = function () {
     }
 
     function saveSignalOnHookCreated(newHookParams){
-        var signalContent = "Has hooked " + newHookParams.gitRepo.name + " from GitHub."
+        var signalContent = "Has hooked " + newHookParams.gitRepo.name + " from GitHub.";
+        console.log("Save signal for new hook");
 
         newHookParams.orgList.forEach(function (org) {
             var data = {
