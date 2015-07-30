@@ -165,11 +165,11 @@ router.post("/getAllRepos", function (req, res, next) {
 
                 user.connectedRepositories.forEach(function(repo){
                    var connectedRepo = _.find(data,{id:repo.id});
+                    console.log(connectedRepo);
                     var connectedRepoIndex = data.indexOf(connectedRepo);
                     data.splice(connectedRepoIndex,1);
-                    console.log(connectedRepoIndex);
+
                 });
-                //console.log(data);
                 res.send(data);
             });
         } else {
@@ -366,6 +366,25 @@ router.post("/getAuthorizedAccount", function (req, res, next) {
             });
         }
     });
+});
+
+router.post("/getHooks",function(req,res,next){
+    github.authenticate({
+        type: "oauth",
+        token: req.body.gitAccessToken
+    });
+
+    github.repos.getHooks({
+        user:req.body.user,
+        repo: req.body.repo
+    },function(err,data){
+        if(err){
+            console.log(err);
+            res.send(err)
+        }else{
+            res.send(data);
+        }
+    })
 });
 
 module.exports = router;
