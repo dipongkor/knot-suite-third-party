@@ -163,13 +163,13 @@ router.post("/getAllRepos", function (req, res, next) {
 
 
 
-                user.connectedRepositories.forEach(function(repo){
-                   var connectedRepo = _.find(data,{id:repo.id});
-                    console.log(connectedRepo);
-                    var connectedRepoIndex = data.indexOf(connectedRepo);
-                    data.splice(connectedRepoIndex,1);
-
-                });
+                //user.connectedRepositories.forEach(function(repo){
+                //   var connectedRepo = _.find(data,{id:repo.id});
+                //    console.log(connectedRepo);
+                //    var connectedRepoIndex = data.indexOf(connectedRepo);
+                //    data.splice(connectedRepoIndex,1);
+                //
+                //});
                 res.send(data);
             });
         } else {
