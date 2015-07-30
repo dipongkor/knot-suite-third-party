@@ -239,10 +239,10 @@ router.post("/createNewWebHook", function (req, res, next) {
                     token: user.gitAccessToken
                 });
 
-                console.log(newWebHookParams.gitRepo);
+                console.log(newWebHookParams.gitRepo.owner.login);
 
                 github.repos.createHook({
-                    user: user.userData.login,
+                    user: newWebHookParams.gitRepo.owner.login,
                     name: "web",
                     repo: newWebHookParams.gitRepo.name,
                     config: {
