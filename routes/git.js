@@ -272,11 +272,13 @@ router.post("/createNewWebHook", function (req, res, next) {
 
                                 signal.saveSignalOnHookCreated(newWebHookParams);
 
-                                res.send({
-                                    message: "GitHub web hook created successfully",
-                                    code: 1,
-                                    data: user
-                                });
+                                res.end("ok");
+
+                                //res.send({
+                                //    message: "GitHub web hook created successfully",
+                                //    code: 1,
+                                //    data: user
+                                //});
                             });
                         })
                     }
