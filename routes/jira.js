@@ -90,7 +90,7 @@ router.post("/getAuthorizedAccount",function(req,res,next){
 });
 
 router.post("/getNewHookUrl",function(req,res,next){
-    var uniqueId = shortid.generate;
+    var uniqueId = shortid.generate();
      var newJiraHook = {
        hookId: uniqueId,
          hookUrl: knotSettings.apiServerUrl + "/api/jira/getNewWebHook/" + req.body.knotSuiteAccessToken + "/" + uniqueId
