@@ -167,7 +167,7 @@ var signal = function () {
                         ogDescription: ogDataResponse.ogData.description,
                         ogImage: ogDataResponse.ogData.images.length > 0 ? ogDataResponse.ogData.images[0] : "",
                         isOgData: true,
-                        url: signalData.ogDataUrl
+                        url: newHookParams.gitRepo.html_url
                     };
 
                     data.ogdataObject = ogdataObject;
