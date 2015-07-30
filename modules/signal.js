@@ -147,6 +147,7 @@ var signal = function () {
                     privacy: "AllEmployee"
                 }
             };
+            console.log(org);
 
             request({
                 url: knotSettings.knotSuiteServiceUrl + "/api/service/linkService/ogData",

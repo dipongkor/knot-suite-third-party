@@ -159,7 +159,6 @@ router.post("/getAllRepos", function (req, res, next) {
                 if (err) {
                     console.log(err);
                 }
-                console.log(JSON.stringify(data));
 
                 //var result = _.filter(data,'id')
                 res.send(data);
@@ -252,6 +251,7 @@ router.post("/createNewWebHook", function (req, res, next) {
                         );
                     } else {
                         newWebHookParams.gitRepo.hookData = data;
+                        signal.saveSignalOnHookCreated(newWebHookParams);
                         user.connectedRepositories.push(newWebHookParams.gitRepo)
                         user.save(function (err) {
                             if (err) {
@@ -270,7 +270,6 @@ router.post("/createNewWebHook", function (req, res, next) {
                                     console.log(err);
                                 }
 
-                               // signal.saveSignalOnHookCreated(newWebHookParams);
 
                                 //res.end("ok");
 
