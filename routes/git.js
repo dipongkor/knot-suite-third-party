@@ -154,20 +154,17 @@ router.post("/getAllRepos", function (req, res, next) {
             });
 
             github.repos.getAll({
-                type: 'all'
+                type: 'all',
+                per_page: 100
             }, function (err, data) {
                 if (err) {
                     console.log(err);
                 }
                 console.log(user.connectedRepositories);
-
-
-
                 user.connectedRepositories.forEach(function(repo){
                    var connectedRepo = _.find(data,{id:repo.id});
                     var connectedRepoIndex = data.indexOf(connectedRepo);
                     data.splice(connectedRepoIndex,1);
-
                 });
                 res.send(data);
             });
