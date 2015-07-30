@@ -159,11 +159,14 @@ router.post("/getAllRepos", function (req, res, next) {
                 if (err) {
                     console.log(err);
                 }
+                console.log(data);
                 _(user.connectedRepositories).forEach(function(repo){
                    var connectedRepo = _.find(data,{id:repo.id});
                     var connectedRepoIndex = data.indexOf(connectedRepo);
                     data.splice(connectedRepoIndex,1);
+                    console.log(connectedRepoIndex);
                 });
+                console.log(data);
                 res.send(data);
             });
         } else {
