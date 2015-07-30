@@ -122,7 +122,7 @@ var signal = function () {
         newHookParams.orgList.forEach(function (org) {
             var data = {
                 accessToken: newHookParams.knotSuiteAccessToken,
-                content: signalData.content,
+                content: signalContent,
                 spaceId: null,
                 rootId: null,
                 verb: null,
