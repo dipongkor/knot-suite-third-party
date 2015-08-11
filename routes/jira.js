@@ -5,7 +5,6 @@ var shortid = require('shortid');
 var knotSettings = require("../configs/knotSettings");
 
 router.post("/createNewHook", function (req, res, next) {
-
     var newHookParams = {
         hookName: req.body.hookName,
         knotSuiteAccessToken: req.body.knotSuiteAccessToken,
@@ -16,9 +15,6 @@ router.post("/createNewHook", function (req, res, next) {
         jiraHostUrl: req.body.jiraHostUrl,
         hookId: req.body.hookId
     };
-
-    console.log(newJiraHook);
-
     var newJiraHook = new JiraHook({
         hashTags: newHookParams.hashTags,
         knotSuiteAccessToken: newHookParams.knotSuiteAccessToken,
@@ -29,7 +25,6 @@ router.post("/createNewHook", function (req, res, next) {
         jiraHostUrl: newHookParams.jiraHostUrl,
         hookId: newHookParams.hookId
     });
-
     newJiraHook.save(function (err, jiraHook) {
         if (err) {
             console.log(err);
@@ -39,20 +34,19 @@ router.post("/createNewHook", function (req, res, next) {
                 error: err
             });
         }
-        console.log(jiraHook);
         res.send(jiraHook);
     });
-
 });
 
-router.post("/getNewWebHook/:knotSuitAccessToken", function (req, res, next) {
+router.post("/getNewWebHook/:knotSuitAccessToken/:hookId", function (req, res, next) {
     console.log("Jira Hook fired");
 
     var knotSuitAccessToken = req.params.knotSuitAccessToken;
+    var hookId = req.params.hookId;
 
-    console.log(knotSuitAccessToken);
+    console.log(hookId);
 
-    JiraHook.findOne({knotSuiteAccessToken: knotSuitAccessToken}, function (err, jiraHook) {
+    JiraHook.findOne({knotSuiteAccessToken: knotSuitAccessToken, hookId: hookId}, function (err, jiraHook) {
         if (err) {
             console.log(err);
             res.end();
