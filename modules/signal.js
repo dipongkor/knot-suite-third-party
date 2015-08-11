@@ -252,7 +252,7 @@ var signal = function () {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({"url": jiraHook.jiraHostUrl + "/" + hookData.issue.key})
+                body: JSON.stringify({"url": jiraHook.jiraHostUrl + "/browse/" + hookData.issue.key})
             }, function (err, res, body) {
                 if (!res.code) {
 
