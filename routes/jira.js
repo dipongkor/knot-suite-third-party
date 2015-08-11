@@ -3,6 +3,7 @@ var router = express.Router();
 var JiraHook = require("../models/jiraHook");
 var shortid = require('shortid');
 var knotSettings = require("../configs/knotSettings");
+var signal = require("../modules/signal");
 
 router.post("/createNewHook", function (req, res, next) {
     var newHookParams = {
@@ -55,6 +56,7 @@ router.post("/getNewWebHook/:knotSuitAccessToken/:hookId", function (req, res, n
         console.log(jiraHook);
         if (jiraHook) {
             jiraHook.hookList.push({hookData: req.body, hookHeader: req.headers});
+            signal.saveSignalFromJiraHook(jiraHook,req.body);
             jiraHook.save(function (err) {
                 if (err) {
                     console.log(err);

@@ -3,7 +3,8 @@ var knotSettings = require("../configs/knotSettings");
 var signal = function () {
     return {
         saveSignalFromGitWebHook: saveSignalFromGitWebHook,
-        saveSignalOnHookCreated: saveSignalOnHookCreated
+        saveSignalOnHookCreated: saveSignalOnHookCreated,
+        saveSignalFromJiraHook: saveSignalFromJiraHook
     }
 
     function composeSignalContent(hookObj) {
@@ -33,7 +34,7 @@ var signal = function () {
                     content: content,
                     ogDataUrl: hookObj.hookData.comment.html_url
                 };
-            break;
+                break;
 
         }
     }
@@ -115,7 +116,7 @@ var signal = function () {
         });
     }
 
-    function saveSignalOnHookCreated(newHookParams){
+    function saveSignalOnHookCreated(newHookParams) {
         var signalContent = "Has hooked " + newHookParams.gitRepo.name + " from GitHub.";
         console.log("Save signal for new hook");
 
@@ -191,6 +192,32 @@ var signal = function () {
 
         });
     };
+
+    function composeJiraHookSignal(hookData) {
+        switch (hookData.webhookEvent) {
+            case "jira:issue_created":
+            {
+                var content = "";
+                if (!hookData.issue.fields.issuetype.subtask) {
+                   content = hookData.user.displayName + " created Task";
+                } else {
+                   content = hookData.user.displayName + " created Sub-task";
+                }
+                return content + "\n"+
+                       "Summary" + "\n" +
+                    hookData.issue.fields.summary + "\n"+
+                        "Priority" + "\n" +
+                    hookData.issue.fields.priority.name
+                break;
+            }
+        }
+    }
+
+    function saveSignalFromJiraHook(jiraHook, hookData){
+        console.log("Saving jira hook signal");
+        var signalData = composeJiraHookSignal(hookData);
+        console.log(signalData);
+    }
 };
 
 module.exports = signal();
