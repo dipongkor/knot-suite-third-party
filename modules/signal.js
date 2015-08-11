@@ -210,7 +210,7 @@ var signal = function () {
                     hookData.issue.fields.priority.name;
                 break;
             }
-            case "jira:issue_created":
+            case "jira:issue_updated":
             {
                 var status = hookData.issue.status.name;
                 if(status == 'Done'){
