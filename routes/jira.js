@@ -13,7 +13,8 @@ router.post("/createNewHook", function (req, res, next) {
         iconUrl: req.body.iconUrl,
         orgList: req.body.orgList,
         hookUrl: req.body.orgList.hookUrl,
-        jiraHostUrl: req.body.jiraHostUrl
+        jiraHostUrl: req.body.jiraHostUrl,
+        hookId: req.body.hookId
     };
 
     console.log(newJiraHook);
@@ -25,7 +26,8 @@ router.post("/createNewHook", function (req, res, next) {
         iconUrl: newHookParams.iconUrl,
         orgList: newHookParams.orgList,
         hookUrl: newHookParams.hookUrl,
-        jiraHostUrl: newHookParams.jiraHostUrl
+        jiraHostUrl: newHookParams.jiraHostUrl,
+        hookId: newHookParams.hookId
     });
 
     newJiraHook.save(function (err, jiraHook) {
