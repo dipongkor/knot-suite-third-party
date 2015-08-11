@@ -16,6 +16,8 @@ router.post("/createNewHook", function (req, res, next) {
         jiraHostUrl: req.body.orgList.jiraHostUrl
     };
 
+    console.log(newJiraHook);
+
     var newJiraHook = new JiraHook({
         hashTags: newHookParams.hashTags,
         knotSuiteAccessToken: newHookParams.knotSuiteAccessToken,
@@ -23,7 +25,7 @@ router.post("/createNewHook", function (req, res, next) {
         iconUrl: newHookParams.iconUrl,
         orgList: newHookParams.orgList,
         hookUrl: newHookParams.hookUrl,
-        jiraHostUrl: req.body.orgList.jiraHostUrl
+        jiraHostUrl: newHookParams.jiraHostUrl
     });
 
     newJiraHook.save(function (err, jiraHook) {
