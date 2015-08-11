@@ -212,11 +212,11 @@ var signal = function () {
             }
             case "jira:issue_updated":
             {
-                var status = hookData.issue.status.name;
+                var status = hookData.issue.fields.status.name;
                 if(status == 'Done'){
-                    content =  hookData.issue.creator.displayName + "Completed Task";
+                    content =  hookData.issue.fields.creator.displayName + "Completed Task";
                 }else if(status == "To Do"){
-                    content =  hookData.issue.creator.displayName + "Reopened Task";
+                    content =  hookData.issue.fields.creator.displayName + "Reopened Task";
                 }
                 return content + "\n" +
                         "Summary: "+ hookData.issue.fields.summary + "\n" +
