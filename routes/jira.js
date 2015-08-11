@@ -3,6 +3,7 @@ var router = express.Router();
 var JiraHook = require("../models/jiraHook");
 var shortid = require('shortid');
 var knotSettings = require("../configs/knotSettings");
+
 router.post("/createNewHook", function (req, res, next) {
 
     var newHookParams = {
@@ -10,7 +11,9 @@ router.post("/createNewHook", function (req, res, next) {
         knotSuiteAccessToken: req.body.knotSuiteAccessToken,
         hashTags: req.body.hashTags,
         iconUrl: req.body.iconUrl,
-        orgList: req.body.orgList
+        orgList: req.body.orgList,
+        hookUrl: req.body.orgList.hookUrl,
+        jiraHostUrl: req.body.orgList.jiraHostUrl
     };
 
     var newJiraHook = new JiraHook({
@@ -18,7 +21,9 @@ router.post("/createNewHook", function (req, res, next) {
         knotSuiteAccessToken: newHookParams.knotSuiteAccessToken,
         hookName: newHookParams.hookName,
         iconUrl: newHookParams.iconUrl,
-        orgList: newHookParams.orgList
+        orgList: newHookParams.orgList,
+        hookUrl: newHookParams.hookUrl,
+        jiraHostUrl: req.body.orgList.jiraHostUrl
     });
 
     newJiraHook.save(function (err, jiraHook) {
