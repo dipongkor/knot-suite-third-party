@@ -1,5 +1,6 @@
 var request = require("request");
 var knotSettings = require("../configs/knotSettings");
+var     _ = require("lodash");
 var signal = function () {
     return {
         saveSignalFromGitWebHook: saveSignalFromGitWebHook,
@@ -194,28 +195,42 @@ var signal = function () {
     };
 
     function composeJiraHookSignal(hookData) {
+        var content = "";
         switch (hookData.webhookEvent) {
             case "jira:issue_created":
             {
-                var content = "";
                 if (!hookData.issue.fields.issuetype.subtask) {
                    content = hookData.user.displayName + " created Task";
                 } else {
                    content = hookData.user.displayName + " created Sub-task";
                 }
                 return content + "\n"+
-                       "Summary" + "\n" +
-                    hookData.issue.fields.summary + "\n"+
-                        "Priority" + "\n" +
-                    hookData.issue.fields.priority.name
+                       "Summary: " +hookData.issue.fields.summary + "\n"+
+                        "Priority: " +
+                    hookData.issue.fields.priority.name;
+                break;
+            }
+            case "jira:issue_created":
+            {
+                var status = hookData.issue.status.name;
+                if(status == 'Done'){
+                    content =  hookData.issue.creator.displayName + "Completed Task";
+                }else if(status == "To Do"){
+                    content =  hookData.issue.creator.displayName + "Reopened Task";
+                }
+                return content + "\n" +
+                        "Summary: "+ hookData.issue.fields.summary + "\n" +
+                        "Priority: " + hookData.issue.fields.priority.name;
                 break;
             }
         }
+        return content;
     }
 
     function saveSignalFromJiraHook(jiraHook, hookData){
         console.log("Saving jira hook signal");
         var signalData = composeJiraHookSignal(hookData);
+        if(signalData == "") return;
         console.log(signalData);
         jiraHook.orgList.forEach(function(org){
             var data = {
