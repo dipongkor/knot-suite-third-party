@@ -217,6 +217,75 @@ var signal = function () {
         console.log("Saving jira hook signal");
         var signalData = composeJiraHookSignal(hookData);
         console.log(signalData);
+        jiraHook.orgList.forEach(function(org){
+            var data = {
+                accessToken: jiraHook.knotSuiteAccessToken,
+                content: signalData,
+                spaceId: null,
+                rootId: null,
+                verb: null,
+                object: null,
+                activityType: "Composed-DashBoard",
+                objectTags: {
+                    objectTags: [],
+                    hashTags: jiraHook.hashTags,
+                    privateTags: []
+                },
+                ogdataObject: {
+                    ogTitle: "",
+                    ogDescription: "",
+                    ogImage: "",
+                    isOgData: false,
+                    url: ""
+                },
+                attachments: [],
+                orgId: org,
+                visibility: {
+                    scope: "Organization",
+                    privacy: "AllEmployee"
+                }
+            };
+
+            request({
+                url: knotSettings.knotSuiteServiceUrl + "/api/service/linkService/ogData",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({"url": jiraHook.jiraHostUrl + "/" + hookData.issue.key})
+            }, function (err, res, body) {
+                if (!res.code) {
+
+                    var ogDataResponse = JSON.parse(res.body);
+                    console.log(ogDataResponse);
+
+                    var ogdataObject = {
+                        ogTitle: ogDataResponse.ogData.title,
+                        ogDescription: ogDataResponse.ogData.description,
+                        ogImage: ogDataResponse.ogData.images.length > 0 ? ogDataResponse.ogData.images[0] : "",
+                        isOgData: true,
+                        url: jiraHook.jiraHostUrl + "/" + hookData.issue.key
+                    };
+
+                    data.ogdataObject = ogdataObject;
+
+                    request({
+                        url: knotSettings.knotSuiteServiceUrl + "/api/signals/saveSignal",
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    }, function (err, res, body) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(res.body);
+                        }
+                    });
+                }
+            });
+        });
     }
 };
 
