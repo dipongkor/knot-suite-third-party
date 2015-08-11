@@ -230,6 +230,7 @@ var signal = function () {
     function saveSignalFromJiraHook(jiraHook, hookData){
         console.log("Saving jira hook signal");
         var signalData = composeJiraHookSignal(hookData);
+
         if(signalData == "") return;
         console.log(signalData);
         jiraHook.orgList.forEach(function(org){
@@ -270,10 +271,8 @@ var signal = function () {
                 body: JSON.stringify({"url": jiraHook.jiraHostUrl + "/browse/" + hookData.issue.key})
             }, function (err, res, body) {
                 if (!res.code) {
-
                     var ogDataResponse = JSON.parse(res.body);
                     console.log(ogDataResponse);
-
                     var ogdataObject = {
                         ogTitle: ogDataResponse.ogData.title,
                         ogDescription: ogDataResponse.ogData.description,
