@@ -264,7 +264,7 @@ var signal = function () {
                         ogDescription: ogDataResponse.ogData.description,
                         ogImage: ogDataResponse.ogData.images.length > 0 ? ogDataResponse.ogData.images[0] : "",
                         isOgData: true,
-                        url: jiraHook.jiraHostUrl + "/" + hookData.issue.key
+                        url: jiraHook.jiraHostUrl + "/browse/" + hookData.issue.key
                     };
 
                     data.ogdataObject = ogdataObject;
