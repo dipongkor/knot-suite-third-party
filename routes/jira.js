@@ -123,5 +123,40 @@ router.post("/getHookById", function (req, res) {
         });
 });
 
+router.post("/updateHook", function (req, res) {
+    var updatedHook =  req.body.updatedHook;
+    JiraHook.findOne({
+            knotSuiteAccessToken: updatedHook.knotSuiteAccessToken,
+            hookId: updatedHook.hookId
+        },
+        function (err, jiraHook) {
+            if(err){
+                console.log(err);
+                res.send({
+                    code: -1,
+                    message: "Database error",
+                    data: err
+                })
+            }
+            jiraHook.hookName = updatedHook.hookName;
+            jiraHook.hashTags = updatedHook.hashTags;
+            jiraHook.orgList = updatedHook.orgList;
+            jiraHook.save(function(err){
+               if(err){
+                   console.log(err);
+                   res.send({
+                      code: -1,
+                       message: "Database error",
+                       data: err
+                   });
+               }
+                res.send({
+                   code: 1,
+                    message: "Hook updated successfully",
+                    data: jiraHook
+                });
+            });
+        });
+});
 module.exports = router;
 
