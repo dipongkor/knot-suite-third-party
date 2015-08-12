@@ -200,9 +200,9 @@ var signal = function () {
             case "jira:issue_created":
             {
                 if (!hookData.issue.fields.issuetype.subtask) {
-                   content = hookData.user.displayName + " created Task";
+                   content = hookData.user.displayName + " created Task " + hookData.issue.key;
                 } else {
-                   content = hookData.user.displayName + " created Sub-task";
+                   content = hookData.user.displayName + " created Sub-task " + hookData.issue.key;
                 }
                 return content + "\n"+
                        "Summary: " +hookData.issue.fields.summary + "\n"+
@@ -214,6 +214,7 @@ var signal = function () {
             {
                 if(!hookData.hasOwnProperty('changelog')) return content;
                 var statusItem = _.findWhere(hookData.changelog.items,{field: 'status'});
+                if(!statusItem) return content;
                 var status = statusItem.toString;
                 console.log(status);
                 if(status == 'Done'){
