@@ -103,5 +103,24 @@ router.post("/getNewHookUrl", function (req, res, next) {
     res.send(newJiraHook);
 });
 
+router.post("/getHookById", function (req, res) {
+    JiraHook.findOne({knotSuiteAccessToken: req.body.knotSuitAccessToken, hookId: req.body.hookId},
+        function (err, jiraHook) {
+            if (err) {
+                console.log(err);
+                res.send({
+                    code: -1,
+                    message: "Database error",
+                    data: err
+                });
+            }
+            res.send({
+                code: 1,
+                message: "Hook found",
+                data: jiraHook
+            });
+        });
+});
+
 module.exports = router;
 
