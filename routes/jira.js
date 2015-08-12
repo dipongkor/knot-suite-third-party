@@ -104,7 +104,7 @@ router.post("/getNewHookUrl", function (req, res, next) {
 });
 
 router.post("/getHookById", function (req, res) {
-    JiraHook.findOne({knotSuiteAccessToken: req.body.knotSuitAccessToken, hookId: req.body.hookId},
+    JiraHook.findOne({knotSuiteAccessToken: req.body.knotSuiteAccessToken, hookId: req.body.hookId},
         function (err, jiraHook) {
             if (err) {
                 console.log(err);
@@ -114,6 +114,7 @@ router.post("/getHookById", function (req, res) {
                     data: err
                 });
             }
+            console.log(jiraHook);
             res.send({
                 code: 1,
                 message: "Hook found",
