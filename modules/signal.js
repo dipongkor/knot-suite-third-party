@@ -5,7 +5,8 @@ var signal = function () {
     return {
         saveSignalFromGitWebHook: saveSignalFromGitWebHook,
         saveSignalOnHookCreated: saveSignalOnHookCreated,
-        saveSignalFromJiraHook: saveSignalFromJiraHook
+        saveSignalFromJiraHook: saveSignalFromJiraHook,
+        isValidJiraHook: composeJiraHookSignal
     }
 
     function composeSignalContent(hookObj) {

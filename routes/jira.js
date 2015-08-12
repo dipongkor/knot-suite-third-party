@@ -41,22 +41,22 @@ router.post("/createNewHook", function (req, res, next) {
 
 router.post("/getNewWebHook/:knotSuitAccessToken/:hookId", function (req, res, next) {
     console.log("Jira Hook fired");
-
     var knotSuitAccessToken = req.params.knotSuitAccessToken;
     var hookId = req.params.hookId;
-
     console.log(hookId);
-
     JiraHook.findOne({knotSuiteAccessToken: knotSuitAccessToken, hookId: hookId}, function (err, jiraHook) {
         if (err) {
             console.log(err);
             res.end();
         }
-
         console.log(jiraHook);
         if (jiraHook) {
-            jiraHook.hookList.push({hookData: req.body, hookHeader: req.headers});
-            signal.saveSignalFromJiraHook(jiraHook,req.body);
+            jiraHook.hookList.push({hookData: req.body});
+            if (signal.isValidJiraHook(req.body) == "") {
+                res.end();
+                return;
+            }
+            signal.saveSignalFromJiraHook(jiraHook, req.body);
             jiraHook.save(function (err) {
                 if (err) {
                     console.log(err);
@@ -70,21 +70,20 @@ router.post("/getNewWebHook/:knotSuitAccessToken/:hookId", function (req, res, n
             res.end();
         }
     });
-
 });
 
-router.post("/getAuthorizedAccount",function(req,res,next){
-   var knotSuiteAccessToken = req.body.knotSuitAccessToken;
-    JiraHook.find({knotSuiteAccessToken: knotSuiteAccessToken},function(err,jiraHooks){
-       if(err){
-           console.log(err);
-           res.send({
-               message: "Database error",
-               code: -1,
-               error: err
-           });
-           return;
-       }
+router.post("/getAuthorizedAccount", function (req, res, next) {
+    var knotSuiteAccessToken = req.body.knotSuitAccessToken;
+    JiraHook.find({knotSuiteAccessToken: knotSuiteAccessToken}, function (err, jiraHooks) {
+        if (err) {
+            console.log(err);
+            res.send({
+                message: "Database error",
+                code: -1,
+                error: err
+            });
+            return;
+        }
 
         res.send({
             message: "User found",
@@ -95,13 +94,13 @@ router.post("/getAuthorizedAccount",function(req,res,next){
     });
 });
 
-router.post("/getNewHookUrl",function(req,res,next){
+router.post("/getNewHookUrl", function (req, res, next) {
     var uniqueId = shortid.generate();
-     var newJiraHook = {
-       hookId: uniqueId,
-         hookUrl: knotSettings.apiServerUrl + "/api/jira/getNewWebHook/" + req.body.knotSuiteAccessToken + "/" + uniqueId
-     };
-     res.send(newJiraHook);
+    var newJiraHook = {
+        hookId: uniqueId,
+        hookUrl: knotSettings.apiServerUrl + "/api/jira/getNewWebHook/" + req.body.knotSuiteAccessToken + "/" + uniqueId
+    };
+    res.send(newJiraHook);
 });
 
 module.exports = router;
