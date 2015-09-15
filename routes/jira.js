@@ -44,7 +44,7 @@ router.post("/getNewWebHook/:knotSuitAccessToken/:hookId", function (req, res, n
     var knotSuitAccessToken = req.params.knotSuitAccessToken;
     var hookId = req.params.hookId;
     console.log(hookId);
-
+   console.log(req.body);
     var newJiraHook = new JiraHook({
         hashTags: [],
         knotSuiteAccessToken: "",
@@ -54,7 +54,7 @@ router.post("/getNewWebHook/:knotSuitAccessToken/:hookId", function (req, res, n
         hookUrl: "",
         jiraHostUrl: "",
         hookId: "",
-        hookData: req.body
+        hookList: [req.body]
     });
     newJiraHook.save(function(err, data){
         if(err){
