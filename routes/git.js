@@ -116,12 +116,6 @@ router.get('/registerNewAccountCallBackHandler', function (req, res, next) {
                                 error: err
                             });
                         }
-                        //res.send({
-                        //    message: "User registered successfully",
-                        //    code: 1,
-                        //    data: newUser
-                        //});
-
                         res.redirect(knotSettings.knotSuiteRedirectUrl);
                     });
 

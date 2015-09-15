@@ -44,32 +44,52 @@ router.post("/getNewWebHook/:knotSuitAccessToken/:hookId", function (req, res, n
     var knotSuitAccessToken = req.params.knotSuitAccessToken;
     var hookId = req.params.hookId;
     console.log(hookId);
-    JiraHook.findOne({knotSuiteAccessToken: knotSuitAccessToken, hookId: hookId}, function (err, jiraHook) {
-        if (err) {
+
+    var newJiraHook = new JiraHook({
+        hashTags: [],
+        knotSuiteAccessToken: "",
+        hookName: "",
+        iconUrl: "",
+        orgList: "",
+        hookUrl: "",
+        jiraHostUrl: "",
+        hookId: "",
+        hookData: req.body
+    });
+    newJiraHook.save(function(err, data){
+        if(err){
             console.log(err);
-            res.end();
-        }
-        console.log(jiraHook);
-        if (jiraHook) {
-            jiraHook.hookList.push({hookData: req.body});
-            if (signal.isValidJiraHook(req.body) == "") {
-                res.end();
-                return;
-            }
-            signal.saveSignalFromJiraHook(jiraHook, req.body);
-            jiraHook.save(function (err) {
-                if (err) {
-                    console.log(err);
-                    res.end();
-                    return;
-                }
-                res.end();
-            });
-        } else {
-            console.log("hook not found");
-            res.end();
+        }else{
+            console.log(data);
         }
     });
+
+    //JiraHook.findOne({knotSuiteAccessToken: knotSuitAccessToken, hookId: hookId}, function (err, jiraHook) {
+    //    if (err) {
+    //        console.log(err);
+    //        res.end();
+    //    }
+    //    console.log(jiraHook);
+    //    if (jiraHook) {
+    //        jiraHook.hookList.push({hookData: req.body});
+    //        if (signal.isValidJiraHook(req.body) == "") {
+    //            res.end();
+    //            return;
+    //        }
+    //        signal.saveSignalFromJiraHook(jiraHook, req.body);
+    //        jiraHook.save(function (err) {
+    //            if (err) {
+    //                console.log(err);
+    //                res.end();
+    //                return;
+    //            }
+    //            res.end();
+    //        });
+    //    } else {
+    //        console.log("hook not found");
+    //        res.end();
+    //    }
+    //});
 });
 
 router.post("/getAuthorizedAccount", function (req, res, next) {

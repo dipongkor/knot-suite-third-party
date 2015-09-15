@@ -7,7 +7,7 @@ var settings = {
         clientId:"2a16ba35e3663da1e8cb",
         secret: "b96b7c67434b7f74af613ac039e05264d8a37fbb",
         callBackUrl: "http://polar-scrubland-5825.herokuapp.com/api/gitHub/registerNewAccountCallBackHandler",
-        gitHubWebHookUrl: "http://polar-scrubland-5825.herokuapp.com/api/gitHub/getNewWebHook",
+        gitHubWebHookUrl: "http://polar-scrubland-5825.herokuapp.com/api/gitHub/getNewWebHook/:",
         knotSuiteServiceUrl: "https://prod-frontserver.herokuapp.com",
         knotSuiteRedirectUrl: "http://knotsuite.azurewebsites.net/#/thirdparty/github/settings"
     },
