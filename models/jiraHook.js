@@ -10,7 +10,8 @@ var hookSchema = new Schema({
     hookName: String,
     hookUrl: String,
     jiraHostUrl: String,
-    hookId: String
+    hookId: String,
+    hook: {}
 });
 
 var JiraHook = mongoose.model('JiraHook', hookSchema);
